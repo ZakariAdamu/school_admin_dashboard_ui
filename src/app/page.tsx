@@ -1,7 +1,17 @@
-const Homepage = () => {
-  return (
-    <div className=''>Homepage</div>
-  )
-}
+"use client";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-export default Homepage
+const Homepage = () => {
+	const router = useRouter();
+
+	useEffect(() => {
+		router.push("/admin"); // Replace with your desired URL
+	}, []);
+
+	return <div>Redirecting...</div>; // Fallback content during the redirect
+
+	return <div className="">Homepage</div>;
+};
+
+export default Homepage;
