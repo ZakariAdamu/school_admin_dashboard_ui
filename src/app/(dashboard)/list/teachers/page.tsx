@@ -98,7 +98,7 @@ const TeacherListPage = async ({
 
 	const p = page ? parseInt(page) : 1;
 
-	// console.log(searchParams);
+	// Get teachers data from database: array destructuring
 	const [data, count] = await prisma.$transaction([
 		prisma.teacher.findMany({
 			include: {

@@ -10,17 +10,25 @@ const Pagination = ({ page, count }: { page: number; count: number }) => {
 		params.set("page", newPage.toString());
 		router.push(`${window.location.pathname}?${params}`);
 	};
+
+	const hasPrev = ITEM_PER_PAGE * (page - 1) > 0;
+	const hasNext = ITEM_PER_PAGE * (page - 1) + ITEM_PER_PAGE < count;
+
 	return (
 		<div className="p-4 flex items-center justify-between text-gray-500">
 			<button
-				disabled
+				disabled={!hasPrev}
 				className="py-2 px-4 rounded-md bg-slate-200 text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+				onClick={() => {
+					changePage(page - 1);
+				}}
 			>
 				Prev
 			</button>
 			<div className="flex items-center gap-2 text-sm ">
+				{/* get total page numbering */}
 				{Array.from(
-					{ length: Math.ceil(count / ITEM_PER_PAGE) },
+					{ length: Math.ceil(count / ITEM_PER_PAGE) }, // length is the page length, 15/5 = 3
 					(_, index) => {
 						const pageIndex = index + 1; // convert the first item index from 0 to 1
 
@@ -30,6 +38,9 @@ const Pagination = ({ page, count }: { page: number; count: number }) => {
 								className={`px-2 py-[3px] rounded-full ${
 									page === pageIndex ? "bg-aishubSky" : ""
 								}`}
+								onClick={() => {
+									changePage(pageIndex);
+								}}
 							>
 								{pageIndex}
 							</button>
@@ -37,7 +48,13 @@ const Pagination = ({ page, count }: { page: number; count: number }) => {
 					}
 				)}
 			</div>
-			<button className="py-2 px-4 rounded-md bg-slate-200 text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed">
+			<button
+				className="py-2 px-4 rounded-md bg-slate-200 text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+				onClick={() => {
+					changePage(page + 1);
+				}}
+				disabled={!hasNext}
+			>
 				Next
 			</button>
 		</div>
